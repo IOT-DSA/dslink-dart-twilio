@@ -1,0 +1,5 @@
+name: dslink_twilio
+dependencies:
+  dslink:
+    git: https://github.com/IOT-DSA/sdk-dslink-dart.git
+  http: any
