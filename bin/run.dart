@@ -16,12 +16,16 @@ main(List<String> args) async {
     args,
     "Twilio-",
     defaultNodes: {
-      "Create_Account": {
+      "Create Account": {
         r"$name": "Create Account",
         r"$is": "addAccount",
         r"$invokable": "write",
         r"$result": "values",
         r"$params": [
+          {
+            "name": "name",
+            "type": "string"
+          },
           {
             "name": "sid",
             "type": "string"
@@ -48,12 +52,14 @@ class AddAccountNode extends SimpleNode {
 
   @override
   onInvoke(Map<String, dynamic> params) {
+    var name = params["name"];
     var sid = params["sid"];
     var token = params["token"];
 
-    link.addNode("/${sid}", {
+    link.addNode("/${name}", {
       r"$$twilio_token": token,
-      "Send_Message": {
+      r"$$twilio_account": sid,
+      "Send Message": {
         r"$name": "Send Message",
         r"$is": "sendMessage",
         r"$invokable": "write",
@@ -84,7 +90,7 @@ class AddAccountNode extends SimpleNode {
           }
         ]
       },
-      "Delete_Account": {
+      "Delete Account": {
         r"$name": "Delete Account",
         r"$is": "deleteAccount",
         r"$invokable": "write",
@@ -115,7 +121,7 @@ class SendMessageNode extends SimpleNode {
   @override
   onInvoke(Map<String, dynamic> params) async {
     var n = link["/${path.split("/")[1]}"];
-    var sid = n.path.split("/").last;
+    var sid = n.getConfig(r"$$twilio_account");
     var token = n.getConfig(r"$$twilio_token");
     var twilio = new Twilio(sid, token);
     return twilio.sendMessage(params["from"], params["to"], params["body"], params["media"]).then((response) {
