@@ -146,7 +146,7 @@ class Twilio {
     };
 
     if (mediaUrl != null) {
-      map["media_url"] = mediaUrl;
+      map["MediaUrl"] = mediaUrl;
     }
 
     return request("POST", "/${API_VERSION}/Accounts/${sid}/Messages.json", body: map);
@@ -154,7 +154,14 @@ class Twilio {
 
   Future<Map<String, dynamic>> request(String method, String path, {Map<String, String> body}) {
     var r = new http.Request(method, Uri.parse("https://${sid}:${token}@api.twilio.com${path}"));
+
     if (body != null) {
+      for (var key in body.keys.toList()) {
+        if (body[key] == null) {
+          body.remove(key);
+        }
+      }
+
       r.bodyFields = body;
     }
     return client.send(r).then((response) {
