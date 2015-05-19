@@ -1,0 +1,17 @@
+{
+  "name": "twilio",
+  "version": "1.0.0",
+  "description": "Twilio DSLink",
+  "main": "bin/run.dart",
+  "engines": {
+    "dart": ">=1.9.0"
+  },
+  "getDependencies": [
+    "pub get"
+  ],
+  "configs": {
+    "broker": {
+      "type": "url"
+    }
+  }
+}
