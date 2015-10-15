@@ -16,6 +16,9 @@
     "name": {
       "type": "string",
       "default": "Twilio"
+    },
+    "token": {
+      "type": "string"
     }
   }
 }
